@@ -1,5 +1,6 @@
 import re
 
+
 # Step 1: Read HTML from file
 with open("baby2008.html", "r", encoding="utf-8") as f:
     html_content = f.read()
