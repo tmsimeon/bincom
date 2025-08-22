@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="filters">
+    <strong>Filter by type:</strong>
+    <a href="?">All</a> |
+    <a href="?type=image">Images</a> |
+    <a href="?type=video">Videos</a> |
+    <a href="?type=audio">Audio</a>
+</div>
+<div class="check_media">
+    {{media_items|length}} media items found.
+</div>
+
+<div class="media-grid">
+    {% for item in media_items %}
+    <div class="media-item">
+        <a href="{% url 'media_detail' item.pk %}">
+            <h3>{{ item.title }}</h3>
+            
+            {% if item.media_type == 'image' %}
+                <img src="{{ item.file.url }}" alt="{{ item.title }}">
+            {% elif item.media_type == 'video' %}
+                <video controls>
+                    <source src="{{ item.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% elif item.media_type == 'audio' %}
+                <audio controls>
+                    <source src="{{ item.file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            {% endif %}
+        </a>
+        <p>{{ item.description|truncatewords:10 }}</p>
+    </div>
+    {% empty %}
+    <p>No media items available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
